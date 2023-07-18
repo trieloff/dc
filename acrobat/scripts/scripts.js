@@ -177,6 +177,17 @@ const CONFIG = {
   (async () => {
     const widgetBlock = document.querySelector('.dc-converter-widget');
     if (widgetBlock) {
+
+      const basic = setInterval(() =>{
+        const dcor = document.querySelectorAll('[data-status="decorated"]');
+        console.log(dcor);
+        if (dcor[0]) {
+          delete dcor[0].dataset.status
+          console.log('fasttrack');
+          clearInterval(basic)
+        }
+      }, 10)
+
       widgetBlock.removeAttribute('class');
       widgetBlock.id = 'dc-converter-widget';
       const { default: dcConverter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
