@@ -163,7 +163,7 @@ export default function init(element) {
       document.addEventListener('milo:deferred', ()=> {
         wrapper.classList.add('widget-loaded');
         console.log('load widget');
-        // element.append(dcWidgetScript);
+        element.append(dcWidgetScript);
       })
     });
   
@@ -292,6 +292,7 @@ export default function init(element) {
       const personalizationIsReady = new CustomEvent('Personalization:Ready');
 
       window.dispatchEvent(personalizationIsReady);
+      console.log('dc personalizationIsReady this');
     });
   });
 }
