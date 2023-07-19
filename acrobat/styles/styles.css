@@ -411,6 +411,7 @@ div.how-to ol li::before{
   font-size: 16px;
   text-align: center;
   margin: 0 10px;
+  margin-top: 0;
 }
 
 .widget-wrapper {
@@ -418,6 +419,10 @@ div.how-to ol li::before{
   margin: 5px;
   border-radius: 8px;
   background-color: white;
+  min-height: 570px;
+  display: flex;
+  /* flex: 1 1 auto; */
+  flex-direction: column;
 }
 
 .widget-button {
@@ -433,19 +438,14 @@ div.how-to ol li::before{
   .dc-converter-widget,
   .widget-wrapper {
     height: calc(100vh - 110px) !important;
-
-    display: flex;
     height: 100%;
     width: 100%;
-
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-
-    /* justify-content: center; */
   }
 
-  .fs > div > div {
+  .widget-loaded > div {
     height: calc(100vh - 110px);
   }
 }

@@ -177,7 +177,10 @@ const CONFIG = {
   (async () => {
     const widgetBlock = document.querySelector('.dc-converter-widget');
     if (widgetBlock) {
-
+      widgetBlock.removeAttribute('class');
+      widgetBlock.id = 'dc-converter-widget';
+      const { default: dcConverter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
+      dcConverter(widgetBlock);
       const basic = setInterval(() =>{
         const dcor = document.querySelectorAll('[data-status="decorated"]');
         console.log(dcor);
@@ -188,10 +191,6 @@ const CONFIG = {
         }
       }, 10)
 
-      widgetBlock.removeAttribute('class');
-      widgetBlock.id = 'dc-converter-widget';
-      const { default: dcConverter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
-      dcConverter(widgetBlock);
     }
   })();
 

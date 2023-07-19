@@ -118,6 +118,7 @@ let langFromPath = url.pathname.split('/')[1];
 const pageLang = localeMap[langFromPath] || 'en-us';
 
 export default function init(element) {
+  console.log('dc script loaded');
   const widget = element;
   const DC_WIDGET_VERSION_FALLBACK = '2.40.0_1.172.1';
   const DC_GENERATE_CACHE_VERSION_FALLBACK = '1.172.1';
@@ -125,8 +126,47 @@ export default function init(element) {
   const STG_DC_GENERATE_CACHE_VERSION = document.querySelector('meta[name="stg-dc-generate-cache-version"]')?.getAttribute('content');
   const HEADING = 'Convert PDF to PowerPoint';
   const COPY = 'Select a PDF file to convert it into a Microsoft PowerPoint presentation.';
-  const LEGAL = 'Your file will be securely handled by Adobe servers and deleted unless you sign in to save it. By using this service, you agree to the Adobe Terms of Use and Privacy Policy.'
-  const BTN = 'Upload a File'
+  const LEGAL = 'Your file will be securely handled by Adobe servers and deleted unless you sign in to save it. By using this service, you agree to the Adobe Terms of Use and Privacy Policy.';
+  const BTN = 'Upload a File';
+
+    //Create Fake Widget
+    createTag.then((tag) => {
+      const wrapper = tag('div', {id: 'CID', class: 'widget-wrapper' });
+      const heading = tag('h1', { class: 'widget-heading' }, HEADING);
+  
+      const center = tag('div', { class: 'widget-center' });
+      const copy = tag('div', { class: 'widget-copy' }, COPY);
+      const legal = tag('div', { class: 'widget-legal' }, LEGAL);
+      const button = tag('div', { class: 'widget-button' }, BTN);
+      wrapper.append(heading);
+      wrapper.append(center)
+      center.append(copy);
+      center.append(button);
+      wrapper.append(legal);
+      console.log('building fake wid');
+      element.append(wrapper);
+      let WIDGET_ENV = `https://dev.acrobat.adobe.com/dc-hosted/2.40.0_1.172.1/dc-app-launcher.js`;
+  
+      const dcWidgetScript = tag('script', {
+        id: 'adobe_dc_sdk_launcher',
+        src: WIDGET_ENV,
+        'data-dropzone_id': 'CID',
+        'data-locale': pageLang,
+        'data-server_env': 'STAGE',
+        'data-verb': 'pdf-to-ppt',
+        'data-load_typekit': 'false',
+        'data-load_imslib': 'false',
+        'data-enable_unload_prompt': 'true',
+  
+      });
+  
+      document.addEventListener('milo:deferred', ()=> {
+        wrapper.classList.add('widget-loaded');
+        console.log('load widget');
+        // element.append(dcWidgetScript);
+      })
+    });
+  
 
   let DC_DOMAIN = 'https://dev.acrobat.adobe.com';
   let DC_WIDGET_VERSION = document.querySelector('meta[name="dc-widget-version"]')?.getAttribute('content');
@@ -196,75 +236,6 @@ export default function init(element) {
     }
   };
 
-  // const widgetContainer = document.createElement('div');
-  // widgetContainer.id = 'CID';
-  // widgetContainer.className = `wapper-${VERB}`;
-  // widget.appendChild(widgetContainer);
-
-  // const isReturningUser = window.localStorage.getItem('pdfnow.auth');
-  // const isRedirection = /redirect_(?:conversion|files)=true/.test(window.location.search);
-  // const preRenderDropZone = !isReturningUser && !isRedirection;
-  // if (preRenderDropZone) {
-  //   (async () => {
-  //     // TODO: Make dynamic
-  //     const response = await fetch(DC_GENERATE_CACHE_URL || `${DC_DOMAIN}/dc-generate-cache/dc-hosted-${DC_GENERATE_CACHE_VERSION}/${VERB}-${pageLang}.html`);
-  //     switch (response.status) {
-  //       case 200: {
-  //         const template = await response.text();
-  //         if (!("rendered" in widgetContainer.dataset)) {
-  //           widgetContainer.dataset.rendered = "true";
-  //           const doc = new DOMParser().parseFromString(template, 'text/html');
-  //           document.head.appendChild(doc.head.getElementsByTagName('Style')[0]);
-  //           widgetContainer.appendChild(doc.body.firstElementChild);
-  //           performance.mark("milo-insert-snippet");
-  //         }
-  //         break;
-  //       }
-  //       default:
-  //         break;
-  //     }
-  //   })();
-  // }
-
-  //Create Fake Widget
-  createTag.then((tag) => {
-    const wrapper = tag('div', {id: 'CID', class: 'widget-wrapper' });
-    const heading = tag('h1', { class: 'widget-heading' }, HEADING);
-
-    const center = tag('div', { class: 'widget-center' });
-    const copy = tag('div', { class: 'widget-copy' }, COPY);
-    const legal = tag('div', { class: 'widget-legal' }, LEGAL);
-    const button = tag('div', { class: 'widget-button' }, BTN);
-    element.append(wrapper);
-    wrapper.append(heading);
-    wrapper.append(center)
-    center.append(copy);
-    center.append(button);
-    wrapper.append(legal);
-
-    let WIDGET_ENV = `https://dev.acrobat.adobe.com/dc-hosted/2.40.0_1.172.1/dc-app-launcher.js`;
-
-    const dcWidgetScript = tag('script', {
-      id: 'adobe_dc_sdk_launcher',
-      src: WIDGET_ENV,
-      'data-dropzone_id': 'CID',
-      'data-locale': pageLang,
-      'data-server_env': 'STAGE',
-      'data-verb': 'pdf-to-ppt',
-      'data-load_typekit': 'false',
-      'data-load_imslib': 'false',
-      'data-enable_unload_prompt': 'true',
-
-    });
-
-    document.addEventListener('milo:deferred', ()=> {
-      wrapper.classList.add('fs');
-      element.append(dcWidgetScript);
-    })
-  });
-
-
-
   window.addEventListener('IMS:Ready', async () => {
     // Redirect Usage
     if (window.adobeIMS.isSignedInUser()) {
@@ -275,20 +246,6 @@ export default function init(element) {
     const { default: frictionless } = await import('../../scripts/frictionless.js');
     frictionless(VERB);
   });
-
-  // const dcScript = document.createElement('script');
-  // dcScript.id = 'adobe_dc_sdk_launcher';
-  // dcScript.setAttribute('src', WIDGET_ENV);
-  // dcScript.dataset.dropzone_id = 'CID';
-  // dcScript.dataset.locale = pageLang;
-  // dcScript.dataset.server_env = ENV;
-  // dcScript.dataset.verb = VERB;
-  // dcScript.dataset.load_typekit = 'false';
-  // dcScript.dataset.load_imslib = 'false';
-  // dcScript.dataset.enable_unload_prompt = 'true';
-  // if (preRenderDropZone) {
-  //   dcScript.dataset.pre_rendered = 'true'; // TODO: remove this line
-  // }
 
   window.addEventListener('Bowser:Ready', async () => {
     // EOL Redirect
