@@ -1,7 +1,8 @@
 name: Verify Milo Changes
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+  push:
 
 jobs:
   run-tests:
