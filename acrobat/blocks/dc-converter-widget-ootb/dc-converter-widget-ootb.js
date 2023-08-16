@@ -183,18 +183,7 @@ export default function init(element) {
         const button = tag('p', { class: 'widget-button' }, BTN);
         const dz = tag('p', { class: 'widget-dropzone' });
         const logo_placeholder = tag('svg', { class: 'widget-logo' });
-        legal_two.innerHTML = LEGAL_TWO;
-        logo_placeholder.innerHTML = logo;
-        preHeading.prepend(logo_placeholder)
-        wrapper.append(preHeading)
-        wrapper.append(heading);
-        wrapper.append(center)
-        center.append(dz);
-        center.append(copy);
-        center.append(button);
-        wrapper.append(legal);
-        wrapper.append(legal_two);
-        element.append(wrapper);
+
 
         const dcWidgetScript = tag('script', {
           id: 'adobe_dc_sdk_launcher',
@@ -210,10 +199,35 @@ export default function init(element) {
 
         // wrapper.classList.add('widget-loaded');
         // element.prepend(dcWidgetScript);
-        document.addEventListener('milo:deferred', ()=> {
+
+
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+          // true for mobile device
+          legal_two.innerHTML = LEGAL_TWO;
+          logo_placeholder.innerHTML = logo;
+          preHeading.prepend(logo_placeholder)
+          wrapper.append(preHeading)
+          wrapper.append(heading);
+          wrapper.append(center)
+          center.append(dz);
+          center.append(copy);
+          center.append(button);
+          wrapper.append(legal);
+          wrapper.append(legal_two);
+          element.append(wrapper);
+
+          document.addEventListener('milo:deferred', ()=> {
+            wrapper.classList.add('widget-loaded');
+            element.prepend(dcWidgetScript);
+          })
+        }else{
+          // false for not mobile device
+          element.append(wrapper);
           wrapper.classList.add('widget-loaded');
           element.prepend(dcWidgetScript);
-        })
+        }
+
+
       });
 
   // Redir URL
