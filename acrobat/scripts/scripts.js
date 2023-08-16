@@ -206,6 +206,7 @@ const { ietf } = getLocale(locales);
   (async () => {
     const widgetBlock = document.querySelector('[class*="dc-converter-widget"]');
     if (widgetBlock) {
+      window.PostLCPevnt = true;
       const blockName = widgetBlock.classList.value;
       widgetBlock.removeAttribute('class');
       widgetBlock.id = 'dc-converter-widget';
@@ -224,7 +225,7 @@ const { ietf } = getLocale(locales);
         link.setAttribute('href', url);
         link.setAttribute('crossorigin', '');
         document.head.appendChild(link);
-      })
+      })  
 
       const { default: dcConverter } = await import(`../blocks/${blockName}/${blockName}.js`);
       dcConverter(widgetBlock);
@@ -255,7 +256,15 @@ const { ietf } = getLocale(locales);
   setConfig({ ...CONFIG, miloLibs });
   loadLana({ clientId: 'dxdc' });
   // get event back form dc web and then load area
-  await loadArea(document, false);
+  if (window.PostLCPevnt) {
+    console.log('Frictionless Page');
+    window.addEventListener('DC_PostLCP:Ready', () => {
+      loadArea()
+    })
+    window.PostLCPevnt = false;
+  } else {
+    await loadArea();
+  }
 
   // Promotion from metadata (for FedPub)
   const promotionMetadata = getMetadata('promotion');

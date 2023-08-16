@@ -28,7 +28,7 @@ export default function lanaLogging() {
 
   // Content Security Policy Logging
   if (fricPage) {
-    window.cspErrors.forEach((error) => { 
+    window?.cspErrors?.forEach((error) => { 
       lanaCspOptions.tags = 'Cat=DxDC_Frictionless_CSP,origin=milo';
       window.lana.log(error, lanaCspOptions);
     })
