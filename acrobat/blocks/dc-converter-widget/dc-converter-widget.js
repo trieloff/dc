@@ -254,7 +254,7 @@ export default function init(element) {
     redirectLegacyBrowsers();
   })
 
-  widget.appendChild(dcScript);
+  // widget.appendChild(dcScript);
 
   window.addEventListener('IMS:Ready', () => {
     let evt;
