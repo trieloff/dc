@@ -170,7 +170,7 @@ export default async function init(element) {
   const VERB = widget.querySelector('div').textContent.trim().toLowerCase();
   if (VERB === 'fillsign') {
     const body = document.querySelector('body');
-    body.classList.add('l2-state');
+    body.classList.add('l2-state-fillsign');
   }
 
   // Redir URL

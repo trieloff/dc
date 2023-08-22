@@ -139,12 +139,11 @@ export default function init(element) {
         break;
       case UPLOAD_START:
         setCurrentEvent('upload');
-        if (verb === 'fillsign') hideContent();
-        if (reviewBlock[0]) { reviewBlock[0].classList.add('hide'); };
         break;
       case UPLOAD_COMPLETE:
         setCurrentEvent('uploadcomplete');
         if (verb === 'fillsign') hideContent();
+        if (reviewBlock[0]) { reviewBlock[0].classList.add('hide'); };
         break;
       case PROCESS_CANCELED:
         setCurrentEvent('cancel');
