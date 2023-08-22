@@ -144,6 +144,7 @@ export default function init(element) {
         break;
       case UPLOAD_COMPLETE:
         setCurrentEvent('uploadcomplete');
+        if (verb === 'fillsign') hideContent();
         break;
       case PROCESS_CANCELED:
         setCurrentEvent('cancel');
