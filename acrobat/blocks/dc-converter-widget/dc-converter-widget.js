@@ -144,7 +144,7 @@ export default async function init(element) {
     window.lana?.log(`DC GENERATE CACHE VERSION IS NOT SET, USING FALLBACK VERSION: ${DC_GENERATE_CACHE_VERSION_FALLBACK}`, lanaOptions);
     dcwErrors.push(`DC GENERATE CACHE VERSION IS NOT SET, USING FALLBACK VERSION: ${DC_GENERATE_CACHE_VERSION_FALLBACK}`);
   }
-  let WIDGET_ENV = `https://dev.acrobat.adobe.com/dc-hosted/${DC_WIDGET_VERSION}/dc-app-launcher.js`;
+  let WIDGET_ENV = `https://stage.acrobat.adobe.com/dc-hosted/${STG_DC_WIDGET_VERSION}/dc-app-launcher.js`;
   let ENV = 'dev';
   let REDIRECT_URL = '';
   let DC_GENERATE_CACHE_URL = '';
