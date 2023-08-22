@@ -92,7 +92,7 @@ export default function init(element) {
       }
     }
 
-    if (verb === 'rotate-pages') {
+    if (verb === 'fillsign') {
       gnav = document.querySelector('header');
       widget = document.querySelector('[data-section="widget"]');
       body = document.querySelector('body');
@@ -138,7 +138,7 @@ export default function init(element) {
         break;
       case UPLOAD_START:
         setCurrentEvent('upload');
-        if (verb === 'rotate-pages') hideContent();
+        if (verb === 'fillsign') hideContent();
         if (reviewBlock[0]) { reviewBlock[0].classList.add('hide'); };
         break;
       case UPLOAD_COMPLETE:
@@ -146,7 +146,7 @@ export default function init(element) {
         break;
       case PROCESS_CANCELED:
         setCurrentEvent('cancel');
-        if (verb === 'rotate-pages') showContent();
+        if (verb === 'fillsign') showContent();
         break;
       case PROCESS_COMPLETE:
         setCurrentEvent('complete');
@@ -158,7 +158,7 @@ export default function init(element) {
         window.modalDisplayed = false;
         break;
       case CONVERSION_START:
-        if (verb === 'rotate-pages') handleResize();
+        if (verb === 'fillsign') handleResize();
         break;
       case CONVERSION_COM:
         setCurrentEvent('complete');
@@ -166,17 +166,17 @@ export default function init(element) {
         break;
       case PREVIEW_GEN:
         setCurrentEvent('preview');
-        if (verb === 'rotate-pages') showContent();
+        if (verb === 'fillsign') showContent();
         if (reviewBlock[0]) { reviewBlock[0].classList = FADE; };
         break;
       case PREVIEW_DIS:
         setCurrentEvent('preview');
-        if (verb === 'rotate-pages') showContent();
+        if (verb === 'fillsign') showContent();
         if (reviewBlock[0]) { reviewBlock[0].classList = FADE; };
         break;
       case DROPZONE_DIS:
         setCurrentEvent(DROPZONE_DIS);
-        if (verb === 'rotate-pages') showContent();
+        if (verb === 'fillsign') showContent();
         if (reviewBlock[0]) { reviewBlock[0].classList = FADE; };
         break;
       case DOWNLOAD_START:

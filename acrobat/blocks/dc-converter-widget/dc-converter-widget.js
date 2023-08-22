@@ -168,7 +168,7 @@ export default async function init(element) {
 
   widget.querySelector('div').id = 'VERB';
   const VERB = widget.querySelector('div').textContent.trim().toLowerCase();
-  if (VERB === 'rotate-pages') {
+  if (VERB === 'fillsign') {
     const body = document.querySelector('body');
     body.classList.add('l2-state');
   }
