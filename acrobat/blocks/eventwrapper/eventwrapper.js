@@ -126,6 +126,7 @@ export default function init(element) {
         section.classList.add('hide');
       });
     };
+    console.log(e);
 
     switch (e) {
       case PROCESS_START:
