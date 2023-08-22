@@ -155,10 +155,14 @@ export default async function init(element) {
     ENV = 'prod';
   }
 
+  console.log('TEEEST');
+
   if (window.location.hostname === 'stage--dc--adobecom.hlx.page'
     || window.location.hostname === 'main--dc--adobecom.hlx.page'
     || window.location.hostname === 'stage--dc--adobecom.hlx.live'
     || window.location.hostname === 'main--dc--adobecom.hlx.live'
+    || window.location.hostname === 'widget-test--dc--adobecom.hlx.live'
+    || window.location.hostname === 'widget-test--dc--adobecom.hlx.page'
     || window.location.hostname === 'www.stage.adobe.com') {
     WIDGET_ENV = `https://stage.acrobat.adobe.com/dc-hosted/${STG_DC_WIDGET_VERSION}/dc-app-launcher.js`;
     DC_DOMAIN = 'https://www.stage.adobe.com/dc';
