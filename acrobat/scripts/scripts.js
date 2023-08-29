@@ -67,7 +67,6 @@ const getBrowserData = () => {
   return browser;
 };
 
-
 function loadStyles(paths) {
   paths.forEach((path) => {
     const link = document.createElement('link');
@@ -236,10 +235,6 @@ window.browser = getBrowserData();
 const { ietf } = getLocale(locales);
 
 (async function loadPage() {
-  // Load Milo base features
-  const miloLibs = setLibs(LIBS);
-  const utilsPromise = import(`${miloLibs}/utils/utils.js`);
-
   // Fast track the widget
   const widgetBlock = document.querySelector('[class*="dc-converter-widget"]');
   if (widgetBlock) {
@@ -275,22 +270,24 @@ const { ietf } = getLocale(locales);
     }
   })();
 
+  const miloLibs = setLibs(LIBS);
   // Milo and site styles
-  const paths = [`${miloLibs}/styles/styles.css`];
+  const paths = [];
   if (STYLES) { paths.push(STYLES); }
-  loadStyles(paths);
+  await loadStyles(paths);
 
-  // Run base milo features
-  const {
-    loadArea, loadScript, setConfig, loadLana, getMetadata
-  } = await utilsPromise;
+  setTimeout(async () => {
+    console.log('milo is importing its utils and running load area');
+    // Load Milo base features
+    const { loadArea, setConfig, loadLana } = await import(`${miloLibs}/utils/utils.js`);
+    setConfig({ ...CONFIG, miloLibs });
+    loadLana({ clientId: 'dxdc' });
+
+    // get event back from dc web and then load area
+    await loadArea(document, false);
+  }, 10000);
+
   addLocale(ietf);
-
-  setConfig({ ...CONFIG, miloLibs });
-  loadLana({ clientId: 'dxdc' });
-
-  // get event back from dc web and then load area
-  await loadArea(document, false);
 
   // Setup Logging
   const { default: lanaLogging } = await import('./dcLana.js');

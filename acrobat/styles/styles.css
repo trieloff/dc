@@ -7,6 +7,10 @@
  *
  */
 
+body {
+  display: unset;
+}
+
 div[data-section="widget"] {
   display: block !important;
 }
